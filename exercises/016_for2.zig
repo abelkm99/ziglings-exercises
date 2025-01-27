@@ -25,7 +25,9 @@ pub fn main() void {
     // the value of the place as a power of two for each bit.
     //
     // See if you can figure out the missing pieces:
-    for (bits, ???) |bit, ???| {
+    // i can actually nest it as much as i want
+    for (0.., bits, 0..) |i, bit, j| {
+        _ = j;
         // Note that we convert the usize i to a u32 with
         // @intCast(), a builtin function just like @import().
         // We'll learn about these properly in a later exercise.
