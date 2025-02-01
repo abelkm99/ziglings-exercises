@@ -73,7 +73,7 @@ const Food = struct {
 const menu: [foods]Food = [_]Food{
     Food{
         .name = "Mac & Cheese",
-        .requires = [ingredients]bool{ false, true, false, true },
+        .requires = [_]bool{ false, true, false, true },
     },
     Food{
         .name = "Chili Mac",
@@ -128,8 +128,8 @@ pub fn main() void {
         // wanted for this Food.
         //
         // Please return this Food from the loop.
-        break;
-    };
+        break food;
+    } else menu[0];
     // ^ Oops! We forgot to return Mac & Cheese as the default
     // Food when the requested ingredients aren't found.
 

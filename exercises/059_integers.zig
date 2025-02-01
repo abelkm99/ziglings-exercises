@@ -19,11 +19,20 @@
 const print = @import("std").debug.print;
 
 pub fn main() void {
-    const zig = [_]u8{
+    var zig = [_]u8{
         0o131, // octal
         0b1101000, // binary
         0x66, // hex
     };
+    // option 1
+    // for (0..zig.len) |i| {
+    //     zig[i] += 1;
+    // }
+    // option 2
+
+    for (&zig) |*v| {
+        v.* += 1;
+    }
 
     print("{s} is cool.\n", .{zig});
 }

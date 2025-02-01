@@ -87,7 +87,7 @@ pub fn main() void {
     // Let's assign the std.debug.print function to a const named
     // "print" so that we can use this new name later!
 
-    const print = ???;
+    const print = std.debug.print;
 
     // Now let's look at assigning and pointing to values in Zig.
     //
@@ -163,13 +163,13 @@ pub fn main() void {
     print("XP before:{}, ", .{glorp.experience});
 
     // Fix 1 of 2 goes here:
-    levelUp(glorp, reward_xp);
+    levelUp(&glorp, reward_xp);
 
     print("after:{}.\n", .{glorp.experience});
 }
 
 // Fix 2 of 2 goes here:
-fn levelUp(character_access: Character, xp: u32) void {
+fn levelUp(character_access: *Character, xp: u32) void {
     character_access.experience += xp;
 }
 
@@ -181,9 +181,7 @@ fn levelUp(character_access: Character, xp: u32) void {
 // we don't know how much memory our program will need until the
 // program is running. Also, there is a limit to the size of stack
 // memory allotted to programs (often set by your operating system).
-// For these occasions, we have "the heap".
-//
-// You can use as much heap memory as you like (within physical
+// For these occasions, we have "the heap". You can use as much heap memory as you like (within physical
 // limitations, of course), but it's much less efficient to manage
 // because there is no built-in CPU support for adding and removing
 // items as we have with the stack. Also, depending on the type of

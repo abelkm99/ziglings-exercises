@@ -52,7 +52,7 @@ const TripError = error{ Unreachable, EatenByAGrue };
 // loop!
 const Place = struct {
     name: []const u8,
-    paths: []const Path = undefined,
+    paths: []const Path = undefined, // TODO: remove the undefined
 };
 
 var a = Place{ .name = "Archer's Point" };
@@ -192,8 +192,8 @@ const TripItem = union(enum) {
             // Oops! The hermit forgot how to capture the union values
             // in a switch statement. Please capture each value as
             // 'p' so the print statements work!
-            .place => print("{s}", .{p.name}),
-            .path => print("--{}->", .{p.dist}),
+            .place => |p| print("{s}", .{p.name}),
+            .path => |p| print("--{}->", .{p.dist}),
         }
     }
 };
@@ -255,8 +255,10 @@ const HermitsNotebook = struct {
             // dereference and optional value "unwrapping" look
             // together. Remember that you return the address with the
             // "&" operator.
-            if (place == entry.*.?.place) return entry;
-            // Try to make your answer this long:__________;
+
+            if (place == entry.*.?.place) {
+                return &entry.*.?;
+            }
         }
         return null;
     }
@@ -273,7 +275,7 @@ const HermitsNotebook = struct {
     // distance) than the one we'd noted before. If it is, we
     // overwrite the old entry with the new one.
     fn checkNote(self: *HermitsNotebook, note: NotebookEntry) void {
-        const existing_entry = self.getEntry(note.place);
+        const existing_entry: ?*NotebookEntry = self.getEntry(note.place);
 
         if (existing_entry == null) {
             self.entries[self.end_of_entries] = note;
@@ -309,7 +311,7 @@ const HermitsNotebook = struct {
     //
     // Looks like the hermit forgot something in the return value of
     // this function. What could that be?
-    fn getTripTo(self: *HermitsNotebook, trip: []?TripItem, dest: *Place) void {
+    fn getTripTo(self: *HermitsNotebook, trip: []?TripItem, dest: *Place) TripError!void {
         // We start at the destination entry.
         const destination_entry = self.getEntry(dest);
 
@@ -411,7 +413,7 @@ pub fn main() void {
     // this is the first time we've actually used the destination!
     var trip = [_]?TripItem{null} ** (place_count * 2);
 
-    notebook.getTripTo(trip[0..], destination) catch |err| {
+    notebook.getTripTo(trip[0..], destination) catch |err| { //TODO: remove the catch
         print("Oh no! {}\n", .{err});
         return;
     };
