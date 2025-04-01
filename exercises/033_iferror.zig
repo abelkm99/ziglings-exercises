@@ -39,6 +39,9 @@ pub fn main() void {
             std.debug.print("={}. ", .{value});
         } else |err| switch (err) {
             MyNumberError.TooBig => std.debug.print(">4. ", .{}),
+            MyNumberError.TooSmall => std.debug.print("<4. ", .{}),
+            // i don't need the unreachable in this case
+            // else => unreachable,
             // Please add a match for TooSmall here and have it print: "<4. "
         }
     }

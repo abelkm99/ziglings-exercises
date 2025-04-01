@@ -17,8 +17,8 @@ pub fn main() void {
 // even though this function can return in four different places!
 fn printAnimal(animal: u8) void {
     std.debug.print("(", .{});
+    defer std.debug.print(") ", .{}); // <---- how?!
 
-    std.debug.print(") ", .{}); // <---- how?!
 
     if (animal == 'g') {
         std.debug.print("Goat", .{});
@@ -34,4 +34,5 @@ fn printAnimal(animal: u8) void {
     }
 
     std.debug.print("Unknown", .{});
+
 }

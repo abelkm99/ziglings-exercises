@@ -23,5 +23,11 @@ pub fn main() !void {
     // to be able to pass it up as a return value of main().
     //
     // We just learned of a single statement which can accomplish this.
-    stdout.print("Hello world!\n", .{});
+    try stdout.print("Hello world!\n", .{});
 }
+
+// i don't need to add ! if i am using catch return
+// pub fn main() void {
+//     const stdout = std.io.getStdOut().writer();
+//     stdout.print("Hello world!\n", .{}) catch return;
+// }

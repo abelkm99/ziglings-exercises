@@ -16,7 +16,7 @@ const MyNumberError = error{
 
 pub fn main() void {
     const a: u32 = addFive(44) catch 0;
-    const b: u32 = addFive(14) catch 0;
+    const b: u32 = addFive(14) catch 0; // this one is > 10 and < 20
     const c: u32 = addFive(4) catch 0;
 
     std.debug.print("a={}, b={}, c={}\n", .{ a, b, c });
@@ -26,7 +26,10 @@ fn addFive(n: u32) MyNumberError!u32 {
     // This function needs to return any error which might come back from detect().
     // Please use a "try" statement rather than a "catch".
     //
-    const x = detect(n);
+    // technically if error is detected it will directry return from here
+    // std.debug.print("detecting to add five\n", .{});
+    const x = try detect(n);
+    // std.debug.print("no error detected adding five\n", .{});
 
     return x + 5;
 }

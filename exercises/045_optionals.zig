@@ -24,20 +24,22 @@
 //
 const std = @import("std");
 
+const MyError = error {small};
+
 pub fn main() void {
     const result = deepThought();
 
     // Please threaten the result so that answer is either the
     // integer value from deepThought() OR the number 42:
-    const answer: u8 = result;
+    const answer: u8 = result orelse MyError.small catch 42;
 
-    std.debug.print("The Ultimate Answer: {}.\n", .{answer});
+    std.debug.print("The Ultimate Answer: {!}.\n", .{answer});
 }
 
-fn deepThought() ?u8 {
+fn deepThought() ?MyError!u8 {
     // It seems Deep Thought's output has declined in quality.
     // But we'll leave this as-is. Sorry Deep Thought.
-    return null;
+    return MyError.small;
 }
 // Blast from the past:
 //

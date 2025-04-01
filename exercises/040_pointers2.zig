@@ -22,8 +22,10 @@
 const std = @import("std");
 
 pub fn main() void {
-    const a: u8 = 12;
-    const b: *u8 = &a; // fix this!
+    const a: u8 = 12; // 
+    const b: *const u8 = &a; // fix this!
+    // since &a is *const u8 i can not store at a variable of type *u8
+    // it doesn't matter if the b is a type of var.
 
     std.debug.print("a: {}, b: {}\n", .{ a, b.* });
 }

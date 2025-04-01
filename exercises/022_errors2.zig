@@ -16,14 +16,25 @@
 //
 const std = @import("std");
 
-const MyNumberError = error{TooSmall};
+const MyNumberError = error{TooSmall,TooBig};
 
 pub fn main() void {
-    var my_number: ??? = 5;
+    var my_number: MyNumberError!u8 = 5;
+
+
+
+
+
+
+
+
+
+
 
     // Looks like my_number will need to either store a number OR
     // an error. Can you set the type correctly above?
     my_number = MyNumberError.TooSmall;
+    my_number = MyNumberError.TooBig;
 
     std.debug.print("I compiled!\n", .{});
 }
