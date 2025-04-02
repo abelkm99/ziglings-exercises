@@ -192,8 +192,8 @@ const TripItem = union(enum) {
             // Oops! The hermit forgot how to capture the union values
             // in a switch statement. Please capture each value as
             // 'p' so the print statements work!
-            .place => print("{s}", .{p.name}),
-            .path => print("--{}->", .{p.dist}),
+            .place => |p| print("{s}", .{p.name}),
+            .path => |p| print("--{}->", .{p.dist}),
         }
     }
 };
@@ -239,8 +239,11 @@ const HermitsNotebook = struct {
     // We'll often want to find an entry by Place. If one is not
     // found, we return null.
     fn getEntry(self: *HermitsNotebook, place: *const Place) ?*NotebookEntry {
+        // do we add the & to prevent creating a copy
+        // if so make sense
+        // what happens if i remve the * from entry
         for (&self.entries, 0..) |*entry, i| {
-            if (i >= self.end_of_entries) break;
+            if (i >= self.end_of_entries) break; //
 
             // Here's where the hermit got stuck. We need to return
             // an optional pointer to a NotebookEntry.
@@ -255,7 +258,9 @@ const HermitsNotebook = struct {
             // dereference and optional value "unwrapping" look
             // together. Remember that you return the address with the
             // "&" operator.
-            if (place == entry.*.?.place) return entry;
+
+            // entry is a pointer to [null | NotebookEntry]
+            if (place == entry.*.?.place) return &entry.*.?;
             // Try to make your answer this long:__________;
         }
         return null;
@@ -277,7 +282,7 @@ const HermitsNotebook = struct {
 
         if (existing_entry == null) {
             self.entries[self.end_of_entries] = note;
-            self.end_of_entries += 1;
+            self.end_of_entries += 1; // this will just add one whenever i found a null field
         } else if (note.dist_to_reach < existing_entry.?.dist_to_reach) {
             existing_entry.?.* = note;
         }
@@ -309,7 +314,7 @@ const HermitsNotebook = struct {
     //
     // Looks like the hermit forgot something in the return value of
     // this function. What could that be?
-    fn getTripTo(self: *HermitsNotebook, trip: []?TripItem, dest: *Place) void {
+    fn getTripTo(self: *HermitsNotebook, trip: []?TripItem, dest: *Place) TripError!void {
         // We start at the destination entry.
         const destination_entry = self.getEntry(dest);
 
@@ -382,6 +387,8 @@ pub fn main() void {
     };
     notebook.checkNote(working_note);
 
+    // two pointers to track start and end inside the entries
+
     // Get the next entry from the notebook (the first being the
     // "start" entry we just added) until we run out, at which point
     // we'll have checked every reachable Place.
@@ -400,7 +407,7 @@ pub fn main() void {
                 .via_path = path,
                 .dist_to_reach = place_entry.dist_to_reach + path.dist,
             };
-            notebook.checkNote(working_note);
+            notebook.checkNote(working_note); // adds or updates working_note
         }
     }
 

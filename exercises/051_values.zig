@@ -103,7 +103,7 @@ pub fn main() void {
     // your program's output for this one compared to the other two
     // assignments below!
 
-    var glorp_access1: Character = glorp;
+    var glorp_access1: Character = glorp; // this creates a copy ?
     glorp_access1.gold = 111;
     print("1:{}!. ", .{glorp.gold == glorp_access1.gold});
 
@@ -111,7 +111,7 @@ pub fn main() void {
     //
     //     If we tried to do this with a const Character instead of a
     //     var, changing the gold field would give us a compiler error
-    //     because const values are immutable!
+    //     because const values are immutable! // obviously
     //
     // "glorp_access2" will do what we want. It points to the original
     // glorp's address. Also remember that we get one implicit
@@ -129,7 +129,9 @@ pub fn main() void {
     // pointer can't change what it's POINTING AT, but the value at
     // the address it points to is still mutable! So we CAN change it.
 
-    const glorp_access3: *Character = &glorp;
+    const glorp_access3: *Character = &glorp; // means it can only point to address of glorp
+    // any attempt to change the pointer would fell but i can change the value.
+    // that's what i am getting
     glorp_access3.gold = 333;
     print("3:{}!. ", .{glorp.gold == glorp_access3.gold});
 
@@ -139,10 +141,14 @@ pub fn main() void {
     //     that would NOT work and we would get a compiler error
     //     because the VALUE becomes immutable!
     //
+
+    // wait does that mean i can actually lock a var with using a const pointer ?
+    // YES!!!!
+
     // Moving along...
     //
     // When arguments are passed to a function,
-    // they are ALWAYS passed as constants within the function,
+    // they are ALWAYS passed as **constants** within the function,
     // regardless of how they were declared in the calling function.
     //
     // Example:
@@ -163,13 +169,13 @@ pub fn main() void {
     print("XP before:{}, ", .{glorp.experience});
 
     // Fix 1 of 2 goes here:
-    levelUp(glorp, reward_xp);
+    levelUp(&glorp, reward_xp);
 
     print("after:{}.\n", .{glorp.experience});
 }
 
 // Fix 2 of 2 goes here:
-fn levelUp(character_access: Character, xp: u32) void {
+fn levelUp(character_access: *Character, xp: u32) void {
     character_access.experience += xp;
 }
 

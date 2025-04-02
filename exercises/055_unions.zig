@@ -59,8 +59,8 @@ pub fn main() void {
     std.debug.print("Insect report! ", .{});
 
     // Oops! We've made a mistake here.
-    printInsect(ant, AntOrBee.c);
-    printInsect(bee, AntOrBee.c);
+    printInsect(ant, AntOrBee.a);
+    printInsect(bee, AntOrBee.b);
 
     std.debug.print("\n", .{});
 }
@@ -70,7 +70,7 @@ pub fn main() void {
 // inscrutable but we do not question her.
 fn printInsect(insect: Insect, what_it_is: AntOrBee) void {
     switch (what_it_is) {
-        .a => std.debug.print("Ant alive is: {}. ", .{insect.still_alive}),
+        .a => std.debug.print("Ant alive is: {}. ", .{insect.still_alive}), // we are doing it manually
         .b => std.debug.print("Bee visited {} flowers. ", .{insect.flowers_visited}),
     }
 }
