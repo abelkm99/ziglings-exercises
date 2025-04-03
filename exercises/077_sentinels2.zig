@@ -23,12 +23,12 @@
 // are null-terminated) AND can be coerced to a variety of other
 // Zig types:
 //
-//     const a: [5]u8 = "array".*;
-//     const b: *const [16]u8 = "pointer to array";
-//     const c: []const u8 = "slice";
-//     const d: [:0]const u8 = "slice with sentinel";
-//     const e: [*:0]const u8 = "many-item pointer with sentinel";
-//     const f: [*]const u8 = "many-item pointer";
+    const a: [5]u8 = "array".*;
+    const b: *const [16]u8 = "pointer to array";
+    const c: []const u8 = "slice";
+    const d: [:0]const u8 = "slice with sentinel";
+    const e: [*:0]const u8 = "many-item pointer with sentinel";
+    const f: [*]const u8 = "many-item pointer";
 //
 // All but 'f' may be printed. (A many-item pointer without a
 // sentinel is not safe to print because we don't know where it
@@ -55,12 +55,13 @@ pub fn main() void {
         .length = 11,
     };
 
+
     // How do we get a printable value from 'foo'? One way is to
     // turn it into something with a known length. We do have a
     // length... You've actually solved this problem before!
     //
     // Here's a big hint: do you remember how to take a slice?
-    const printable = ???;
+    const printable = foo.data[0..foo.length];
 
     print("{s}\n", .{printable});
 }
