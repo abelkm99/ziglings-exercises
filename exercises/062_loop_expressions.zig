@@ -17,6 +17,7 @@
 // false or 2) a 'for' loop runs out of items.
 //
 //     const two: u8 = while (true) break 2 else 0;         // 2
+//     const two: u8 = while (true) { break 2 } else 0; the same with the above one
 //     const three: u8 = for ([1]u8{1}) |f| break 3 else 0; // 3
 //
 // If you do not provide an else clause, an empty one will be
@@ -47,7 +48,8 @@ pub fn main() void {
     // return it from the for loop.
     const current_lang: ?[]const u8 = for (langs) |lang| {
         if (lang.len == 3) break lang;
-    };
+    } else null;
+    // if the loop doesn't return anything
 
     if (current_lang) |cl| {
         print("Current language: {s}\n", .{cl});
