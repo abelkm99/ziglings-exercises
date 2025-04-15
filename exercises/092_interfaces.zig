@@ -90,7 +90,7 @@ const Insect = union(enum) {
     // code without needing to know any other details. Cool!
     pub fn print(self: Insect) void {
         switch (self) {
-            inline else => |case| return case.print(),
+            inline else => |case| {case.print();},
         }
     }
 };
@@ -106,7 +106,11 @@ pub fn main() !void {
     for (my_insects) |insect| {
         // Almost done! We want to print() each insect with a
         // single method call here.
-        switch (insect) {}
+        switch (insect) {
+            else => {
+                insect.print();
+            },
+        }
     }
 }
 
